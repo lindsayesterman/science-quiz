@@ -67,61 +67,56 @@ questions:  [
 };
 
 
+let questionNum=0;
 
+let clickCount = -1;
 
-function removeStart(){
-	$('.startQ').submit(function(event){
+function attachRemoveStart(){
+	$('.startQ').submit(function removeStart(event){
 		event.preventDefault();
-		$(this).closest('.startQ').detach();
+		$(this).closest('.startQ').remove();
+      clickCount++;
+      questionNum++;
+      addQuestion();
 	});
 }
 
 
-/*function removeQ(){
-  $('.js-q-container').submit(function(event){
-    event.preventDefault();
-    $(this).closest(${STORE.questions}).detach();
-  });
-}
-*/
-
-
-let clickCount = 0;
-
-function handleClicks() {
-  $('.startQ').submit(function(event) {
-  clickCount++;
-  });
-}
-
-
-
 
 function addQuestion(){
-  removeStart();
-  handleClicks();
 for (let i=0;i<STORE.questions.length;i++){
   if (clickCount==i){
-    $('.js-q-container').append(
-        `<h3>"${STORE.questions[i].question}"</h3>
-         <form>
-         <input type="radio" id="${STORE.questions[i].answers}" name="nervous" value="${STORE.questions[i].answers}"/>
-         <label for="${STORE.questions[i].answers}">${STORE.questions[i].answers}</label><br>
-         <input type="submit" id="submit" name="submit" value="submit"></form>`
-    )}};
+    const questionAnswers= STORE.questions[i].answers
+    let answerHtml= "";
+    $('h5').append(
+      `#`+`${questionNum}`)
+      for (let j=0;j<questionAnswers.length;j++){
+        const currentAnswer = questionAnswers[j];
+        answerHtml += `<input type="radio" id="${currentAnswer}" name="nervous" value="${currentAnswer}"/>
+        <label for="${currentAnswer}">${currentAnswer}</label><br>`
+      }
+  $('.js-q-container').append(
+        `<h3>${STORE.questions[i].question}</h3>
+         <form>`+
+         answerHtml+
+         `<input type="submit" id="submit" name="submit" value="submit" class="startQ"></form>`
+    )
+    attachRemoveStart();
+  }};
 }
 
 
+function start(){
+attachRemoveStart();
+}
 
-addQuestion();
 
-
+start();
 
 
 
 /*
 var score=0;
-var questionNum=0;
 
 var qUsed = [false,false, false, false, false]
 
