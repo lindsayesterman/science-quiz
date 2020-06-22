@@ -68,8 +68,11 @@ questions:  [
 
 
 let questionNum=0;
-
+let answerChosen= $("input[type=radio]:checked").val();
 let clickCount = -1;
+
+
+
 
 function attachRemoveStart(){
 	$('.startQ').submit(function removeStart(event){
@@ -78,6 +81,7 @@ function attachRemoveStart(){
       clickCount++;
       questionNum++;
       addQuestion();
+      checkCorrect();
 	});
 }
 
@@ -86,7 +90,7 @@ function attachRemoveStart(){
 function addQuestion(){
 for (let i=0;i<STORE.questions.length;i++){
   if (clickCount==i){
-    const questionAnswers= STORE.questions[i].answers
+    const questionAnswers= STORE.questions[i].answers;
     let answerHtml= "";
     $('h5').append(
       `#`+`${questionNum}`)
@@ -106,8 +110,19 @@ for (let i=0;i<STORE.questions.length;i++){
 }
 
 
+
+function checkCorrect(){
+  console.log(answerChosen);
+  if ($(answerChosen).is("[value='yes']")){
+    alert("Cool! You'll do great!"); 
+  }else{ 
+    alert("Oh no! Good luck.") } 
+  }
+
+
+
 function start(){
-attachRemoveStart();
+  attachRemoveStart();
 }
 
 
@@ -115,21 +130,5 @@ start();
 
 
 
-/*
-var score=0;
 
-var qUsed = [false,false, false, false, false]
-
-
-function updateNum(){
-	questionNum++;
-	$('.questionNum').text(questionNum+1);
-}
-
-
-
-}
-
-
-*/
 
