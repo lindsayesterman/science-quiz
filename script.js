@@ -2,6 +2,7 @@ const STORE = {
 
 questions:  [
 
+
 //1
    
     {
@@ -68,62 +69,65 @@ questions:  [
 
 
 let questionNum=0;
-let answerChosen= $("input[type=radio]:checked").val();
 let clickCount = -1;
 
 
 
-
-function attachRemoveStart(){
+function listenForAttachRemoveStart(){
 	$('.startQ').submit(function removeStart(event){
 		event.preventDefault();
 		$(this).closest('.startQ').remove();
       clickCount++;
       questionNum++;
       addQuestion();
-      checkCorrect();
 	});
 }
 
 
 
 function addQuestion(){
-for (let i=0;i<STORE.questions.length;i++){
-  if (clickCount==i){
-    const questionAnswers= STORE.questions[i].answers;
-    let answerHtml= "";
-    $('h5').append(
-      `#`+`${questionNum}`)
-      for (let j=0;j<questionAnswers.length;j++){
-        const currentAnswer = questionAnswers[j];
-        answerHtml += `<input type="radio" id="${currentAnswer}" name="nervous" value="${currentAnswer}"/>
-        <label for="${currentAnswer}">${currentAnswer}</label><br>`
-      }
-  $('.js-q-container').append(
-        `<h3>${STORE.questions[i].question}</h3>
-         <form>`+
-         answerHtml+
-         `<input type="submit" id="submit" name="submit" value="submit" class="startQ"></form>`
-    )
-    attachRemoveStart();
-  }};
+    for (let i=0;i<STORE.questions.length;i++){
+      if (clickCount==i){
+        const questionAnswers= STORE.questions[i].answers;
+        let currentCorrect=STORE.questions[i].answer;
+        let answerHtml= "";
+
+             $('input[type=radio]').click(function() {
+                let answerChosen=$('input[type=radio]:checked').val();
+                console.log(answerChosen);
+                if ($(answerChosen == currentCorrect)){
+                    alert("You are correct!"); 
+                }else{ 
+                     alert(`Sorry, the correct answer was` `${currentCorrect}`) 
+              }});
+
+             $('h5').append(
+                `#`+`${questionNum}`)
+
+                for (let j=0;j<questionAnswers.length;j++){
+                    const currentAnswer = questionAnswers[j];
+                    answerHtml += `<input type="radio" id="${currentAnswer}" name="${currentCorrect}" value="${currentAnswer}"/>
+                    <label for="${currentAnswer}">${currentAnswer}</label><br>`
+                }
+
+      $('.js-q-container').append(
+            `<h3>${STORE.questions[i].question}</h3>
+             <form>`+
+             answerHtml+
+             `<input type="submit" id="submit" name="submit" value="submit" class="startQ"></form>`)
+             }
+
+    listenForAttachRemoveStart();
+
+    };
 }
-
-
-
-function checkCorrect(){
-  console.log(answerChosen);
-  if ($(answerChosen).is("[value='yes']")){
-    alert("Cool! You'll do great!"); 
-  }else{ 
-    alert("Oh no! Good luck.") } 
-  }
 
 
 
 function start(){
-  attachRemoveStart();
+  listenForAttachRemoveStart();
 }
+
 
 
 start();
