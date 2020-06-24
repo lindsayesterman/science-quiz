@@ -111,22 +111,24 @@ let questionNum=0;
 let clickCount = -1;
 
 
+
 function listenForAttachRemoveStart(){
   $('.startQ').submit(function removeStart(event){
     event.preventDefault();
     $(this).closest('.startQ').remove();
       clickCount++;
       questionNum++;
-      addQuestion();
+      renderAQuestion();
+      setEndScreen();
   });
 }
 
 
 
-function addQuestion(){
+function renderAQuestion(){
     for (let i=0;i<STORE.questions.length;i++){
       if (clickCount==i){
-        const questionOptions= STORE.questions[i].answers;
+        let questionOptions= STORE.questions[i].answers;
         let currentCorrect=STORE.questions[i].answer;
         let answerHtml= "";
 
@@ -138,17 +140,17 @@ function addQuestion(){
 
       $('.js-q-container').append(
 
-            `<div class="startQ">
+            `<main class="startQ">
             <h4>Question ${questionNum} of ${STORE.questions.length}</h4>
             <div class="numCorrect">
-              <h5><h5>${numCorrect} correct out of ${STORE.questions.length}</h5></h5>
+              <h5>${numCorrect} correct out of ${STORE.questions.length}</h5>
             </div>
             <h3>${STORE.questions[i].question}</h3>
              <form>`+
              answerHtml+
              `<input type="submit" id="submit" name="submit" value="submit" required="required">
              </form>
-             </div>`)
+             </main>`)
 
     $('.startQ').submit(function() {
       event.preventDefault();
@@ -169,6 +171,23 @@ function addQuestion(){
         listenForAttachRemoveStart();
 }
 
+function setEndScreen(){
+  if (questionNum>STORE.questions.length){
+
+      $('.js-q-container').append(
+
+            `<main class="startQ">
+            <div class="numCorrect">
+              <h2>Nice job! You got ${numCorrect} correct out of ${STORE.questions.length}!</h2>
+             </div>
+             <h3>Do you want to try again?</h3>
+             <form>
+             <input type="submit" id="submit" name="submit" value="Try again" required="required">
+             </form>
+             </main>`)
+
+  }
+}
 
 
 
