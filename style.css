@@ -43,16 +43,25 @@ h5{
 
 
 
-/*media query*/
+/*media queries*/
 @media screen and (min-width:449px) {
 
 	.q-container {
-		width:40%;
+		width:45%;
 		height:300px; 
 	}
 	
 }
 
+
+@media screen and (min-width:449px) and (max-width:750px) {
+
+	.q-container {
+		width:50%;
+		height:450px; 
+	}
+	
+}
 
 
 
