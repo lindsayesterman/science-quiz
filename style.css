@@ -1,5 +1,7 @@
+
 html{
 	font-family: 'Lato', sans-serif;
+	background-color: #F8F8F8;
 }
 
 h1{
@@ -10,7 +12,7 @@ h1{
 
 
 .q-container{
-	background-color:#a28ad2;
+	background-color:#6BB5F9;
 	margin:0 auto;
 	border-radius: 25px;
 	width:65%;

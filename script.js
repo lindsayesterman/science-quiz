@@ -119,14 +119,16 @@ function listenForAttachRemoveStart(){
       clickCount++;
       questionNum++;
       renderAQuestion();
-      setEndScreen();
+      checkAndSetEndScreen();
   });
 }
 
 
 
 function renderAQuestion(){
-    for (let i=0;i<STORE.questions.length;i++){
+  
+  for (let i=0;i<STORE.questions.length;i++){
+      
       if (clickCount==i){
         let questionOptions= STORE.questions[i].answers;
         let currentCorrect=STORE.questions[i].answer;
@@ -134,7 +136,7 @@ function renderAQuestion(){
 
                 for (let j=0;j<questionOptions.length;j++){
                     const currentAnswer = questionOptions[j];
-                    answerHtml += `<input type="radio" id="${currentAnswer}" name="${currentCorrect}" value="${currentAnswer}"/>
+                    answerHtml += `<input type="radio" id="${currentAnswer}" name="${currentCorrect}" value="${currentAnswer}" required="required">
                     <label for="${currentAnswer}">${currentAnswer}</label><br>`
                 }
 
@@ -171,7 +173,9 @@ function renderAQuestion(){
         listenForAttachRemoveStart();
 }
 
-function setEndScreen(){
+
+
+function checkAndSetEndScreen(){
   if (questionNum>STORE.questions.length){
 
       $('.js-q-container').append(
@@ -182,7 +186,7 @@ function setEndScreen(){
              </div>
              <h3>Do you want to try again?</h3>
              <form>
-             <input type="submit" id="submit" name="submit" value="Try again" required="required">
+             <input type="submit" id="submit" name="submit" value="Try again">
              </form>
              </main>`)
 
