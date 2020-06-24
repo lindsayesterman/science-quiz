@@ -98,7 +98,7 @@ questions:  [
       "90%"
     
     ],
-    answer:""
+    answer:"15%"
   }
   
 ]
@@ -106,7 +106,7 @@ questions:  [
 };
 
 
-
+let numCorrect=0;
 let questionNum=0;
 let clickCount = -1;
 
@@ -137,21 +137,37 @@ function addQuestion(){
                 }
 
       $('.js-q-container').append(
+
             `<div class="startQ">
-            <h5>#${questionNum}</h5>
+            <h4>Question ${questionNum} of ${STORE.questions.length}</h4>
+            <div class="numCorrect">
+              <h5><h5>${numCorrect} correct out of ${STORE.questions.length}</h5></h5>
+            </div>
             <h3>${STORE.questions[i].question}</h3>
              <form>`+
              answerHtml+
              `<input type="submit" id="submit" name="submit" value="submit" required="required">
              </form>
              </div>`)
+
+    $('.startQ').submit(function() {
+      event.preventDefault();
+      let answerChosen=$('input[type=radio]:checked').val();
+      console.log(currentCorrect);
+      console.log(answerChosen);
+        if (answerChosen == currentCorrect){
+            alert("You are correct! The right answer was "+ `${currentCorrect}.`); 
+            numCorrect++;
+        }else{ 
+            alert("Sorry, you are incorrect. The correct answer was " +`${currentCorrect}.`) 
+    }});
+      
            }
+
     }   
 
         listenForAttachRemoveStart();
 }
-
-
 
 
 
@@ -164,30 +180,5 @@ function start(){
 
 
 start();
-
-
-
-
-
-/*
-
-function checkCorrect(){
-$('input[type=radio]').click(function() {
-    let answerChosen=$('input[type=radio]:checked').val();
-    console.log(answerChosen);
-    if ($(answerChosen == currentCorrect)){
-      alert("You are correct!"); 
-    }else{ 
-      alert(`Sorry, the correct answer was` `${currentCorrect}`) 
-  }})};
-
-  
-if ($('input[type=radio]:checked'== `${currentCorrect}`)){
-      alert("You are correct!"); 
-    }else{ 
-      alert(`Sorry, the correct answer was` `${currentCorrect}`) 
-  };
-
-*/
 
 
