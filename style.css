@@ -14,7 +14,8 @@ h1{
 	margin:0 auto;
 	border-radius: 25px;
 	width:55%;
-	height:300px;
+	height:350px;
+	max-height:1200px;
 	padding:8%;
 	display:flex;
 	opacity:.77;
@@ -31,14 +32,22 @@ h3{
 
 .q-container input[type=submit]{
 	margin-top:20px;
-	width: 100%
+	width: 100%;
 }
 
 h5{
-	margin-right:99%;
+text-align: center
 }
 
+/*media query*/
+@media screen and (min-width:449px} {
 
+	.q-container{
+		width:50%;
+		height:300px; 
+	}
+	
+}
 
 
 

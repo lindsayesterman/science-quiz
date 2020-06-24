@@ -3,7 +3,6 @@ const STORE = {
 questions:  [
 
 
-//1
    
     {
       question: "Which part of the nervous system controls our fight or flight response?",
@@ -16,7 +15,7 @@ questions:  [
       answer: "Sympathetic"
     },
 
-    //2
+
 {
       question: "Which of the following is known as the 'I knew it all along' phenomenon?",
       answers: [
@@ -27,7 +26,7 @@ questions:  [
       ],
       answer: "Hindsight Bias"
     },
-//3 
+
 	{
 		question: "Which is caused by a mutation in the 21st chromosome?",
       answers: [
@@ -39,7 +38,7 @@ questions:  [
       answer: "Down Syndrome"
 	},
 	
-//4
+
 	{
 	question: "Who proposed the idea of evolution?",
       answers: [
@@ -51,6 +50,32 @@ questions:  [
       answer: "Charles Darwin"
 	}, 
 
+  {
+    question: "Which element on the periodic table has the highest electronegativity?",
+    answers:[
+
+    "Oxygen",
+    "Flourine",
+    "Francium",
+    "Hydrogen"
+
+    ],
+    answer:"Flourine"
+  },
+
+  {
+
+  question:"Scientists believe Earth's continents used to all be connected. What was this continent called?",
+  answers: [
+
+    "Mercury",
+    "Tectonic",
+    "Crassen",
+    "Pangea"
+    ],
+    answer:"Pangea"
+
+ },
 
 	{
 	question: "Which of the following is a sign of bipolar disorder",
@@ -61,26 +86,39 @@ questions:  [
         "Extreme changes in mood"
       ],
       answer: "Extreme changes in mood"
-	}
+	},
+
+  {
+    question:"Around what percentage of all the species do we know of?",
+    answers:[
+
+      "1%",
+      "15%",
+      "75%",
+      "90%"
+    
+    ],
+    answer:""
+  }
   
 ]
 
 };
 
 
+
 let questionNum=0;
 let clickCount = -1;
 
 
-
 function listenForAttachRemoveStart(){
-	$('.startQ').submit(function removeStart(event){
-		event.preventDefault();
-		$(this).closest('.startQ').remove();
+  $('.startQ').submit(function removeStart(event){
+    event.preventDefault();
+    $(this).closest('.startQ').remove();
       clickCount++;
       questionNum++;
       addQuestion();
-	});
+  });
 }
 
 
@@ -88,39 +126,34 @@ function listenForAttachRemoveStart(){
 function addQuestion(){
     for (let i=0;i<STORE.questions.length;i++){
       if (clickCount==i){
-        const questionAnswers= STORE.questions[i].answers;
+        const questionOptions= STORE.questions[i].answers;
         let currentCorrect=STORE.questions[i].answer;
         let answerHtml= "";
 
-             $('input[type=radio]').click(function() {
-                let answerChosen=$('input[type=radio]:checked').val();
-                console.log(answerChosen);
-                if ($(answerChosen == currentCorrect)){
-                    alert("You are correct!"); 
-                }else{ 
-                     alert(`Sorry, the correct answer was` `${currentCorrect}`) 
-              }});
-
-             $('h5').append(
-                `#`+`${questionNum}`)
-
-                for (let j=0;j<questionAnswers.length;j++){
-                    const currentAnswer = questionAnswers[j];
+                for (let j=0;j<questionOptions.length;j++){
+                    const currentAnswer = questionOptions[j];
                     answerHtml += `<input type="radio" id="${currentAnswer}" name="${currentCorrect}" value="${currentAnswer}"/>
                     <label for="${currentAnswer}">${currentAnswer}</label><br>`
                 }
 
       $('.js-q-container').append(
-            `<h3>${STORE.questions[i].question}</h3>
+            `<div class="startQ">
+            <h5>#${questionNum}</h5>
+            <h3>${STORE.questions[i].question}</h3>
              <form>`+
              answerHtml+
-             `<input type="submit" id="submit" name="submit" value="submit" class="startQ"></form>`)
-             }
+             `<input type="submit" id="submit" name="submit" value="submit" required="required">
+             </form>
+             </div>`)
+           }
+    }   
 
-    listenForAttachRemoveStart();
-
-    };
+        listenForAttachRemoveStart();
 }
+
+
+
+
 
 
 
@@ -134,5 +167,27 @@ start();
 
 
 
+
+
+/*
+
+function checkCorrect(){
+$('input[type=radio]').click(function() {
+    let answerChosen=$('input[type=radio]:checked').val();
+    console.log(answerChosen);
+    if ($(answerChosen == currentCorrect)){
+      alert("You are correct!"); 
+    }else{ 
+      alert(`Sorry, the correct answer was` `${currentCorrect}`) 
+  }})};
+
+  
+if ($('input[type=radio]:checked'== `${currentCorrect}`)){
+      alert("You are correct!"); 
+    }else{ 
+      alert(`Sorry, the correct answer was` `${currentCorrect}`) 
+  };
+
+*/
 
 
