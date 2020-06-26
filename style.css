@@ -16,9 +16,9 @@ h1{
 	margin:0 auto;
 	border-radius: 25px;
 	width:65%;
-	height:500px;
+	height:600px;
 	max-height:1200px;
-	padding:6%;
+	padding:4%;
 	display:flex;
 	opacity:.77;
 	flex-wrap: wrap;
@@ -33,14 +33,21 @@ h3{
 
 
 .q-container input[type=submit]{
-	margin-top:20px;
+	margin-top:30px;
 	width: 100%;
+	margin-bottom:65px;
 }
 
-h5{
 
+fieldset{
+	margin-top:70px;
+	border-color: black;
+	height:80px;
 }
 
+.hidden{
+	display:none;
+}
 
 
 /*media queries*/
@@ -48,7 +55,21 @@ h5{
 
 	.q-container {
 		width:45%;
-		height:300px; 
+		height:400px; 
+	}
+
+
+	.q-container input[type=submit]{
+		margin-top:20px;
+		width: 100%;
+		margin-bottom:25px;
+	}
+
+
+	fieldset{
+		margin-top:20px;
+		border-color: black;
+		height:60px;
 	}
 	
 }
@@ -58,9 +79,21 @@ h5{
 
 	.q-container {
 		width:50%;
-		height:450px; 
+		height:510px; 
 	}
 	
+	.q-container input[type=submit]{
+		margin-top:20px;
+		width: 100%;
+		margin-bottom:25px;
+	}
+
+
+	fieldset{
+		margin-top:20px;
+		border-color: black;
+		height:73px;
+	}
 }
 
 

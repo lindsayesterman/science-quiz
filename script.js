@@ -114,14 +114,20 @@ let clickCount = -1;
 
 function listenForAttachRemoveStart(){
   $('.startQ').submit(function removeStart(event){
-    event.preventDefault();
-    $(this).closest('.startQ').remove();
-      clickCount++;
-      questionNum++;
-      renderAQuestion();
-      checkAndSetEndScreen();
+      event.preventDefault();
+      $(this).closest('.startQ').remove();
+        clickCount++;
+        questionNum++;
+        renderAQuestion();
+        giveFeedback();
+        checkAndSetEndScreen();
   });
 }
+
+function giveFeedback(){
+    $('input[type=radio]').click(function() {
+        $('fieldset').addClass('hidden');
+})};
 
 
 
@@ -157,20 +163,27 @@ function renderAQuestion(){
     $('.startQ').submit(function() {
       event.preventDefault();
       let answerChosen=$('input[type=radio]:checked').val();
-      console.log(currentCorrect);
-      console.log(answerChosen);
         if (answerChosen == currentCorrect){
-            alert("You are correct! The right answer was "+ `${currentCorrect}.`); 
+         $('.js-q-container').prepend(
+          `<fieldset><h4>You are correct! The right answer was ${currentCorrect}.</h4></fieldset>`); 
             numCorrect++;
         }else{ 
-            alert("Sorry, you are incorrect. The correct answer was " +`${currentCorrect}.`) 
-    }});
-      
-           }
+        $('.js-q-container').prepend(
+         `<fieldset><h4>Sorry, you are incorrect. The correct answer was ${currentCorrect}.</fieldset></h4?`); 
+        }
 
+      });
+          }
     }   
 
-        listenForAttachRemoveStart();
+    listenForAttachRemoveStart();
+}
+
+
+
+function restart(){
+  let questionNum=0;
+  let clickCount=-1;
 }
 
 
@@ -189,16 +202,13 @@ function checkAndSetEndScreen(){
              <input type="submit" id="submit" name="submit" value="Try again">
              </form>
              </main>`)
-
+      restart();
   }
 }
 
-
-
-
-function start(){
+$(function start() {
   listenForAttachRemoveStart();
-}
+});
 
 
 
