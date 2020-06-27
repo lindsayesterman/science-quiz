@@ -112,7 +112,7 @@ let clickCount = -1;
 
 
 
-function listenForAttachRemoveStart(){
+function handleSubmitAndEnd(){
   $('.startQ').submit(function removeStart(event){
     event.preventDefault();
     $(this).closest('.startQ').remove();
@@ -121,8 +121,12 @@ function listenForAttachRemoveStart(){
     renderAQuestion();
     hideFeedback();
     if (questionNum>STORE.questions.length){
-      checkAndSetEndScreen();
-    }});
+      setEndScreen();
+    }
+    if (clickCount==0){
+     $('fieldset').remove();
+   }
+ });
 }
 
 
@@ -136,20 +140,23 @@ function hideFeedback(){
   function renderAQuestion(){
     for (let i=0;i<STORE.questions.length;i++){
       if (clickCount==i){
+        console.log(clickCount)
+
         let questionOptions= STORE.questions[i].answers;
         let currentCorrect=STORE.questions[i].answer;
         let answerHtml= "";
-        
         for (let j=0;j<questionOptions.length;j++){
           const currentAnswer = questionOptions[j];
           answerHtml += `<input type="radio" id="${currentAnswer}" name="${currentCorrect}" value="${currentAnswer}" required="required">
           <label for="${currentAnswer}">${currentAnswer}</label><br>`
         }
-        generateQuestion(answerHtml);
+        $('.js-q-container').append(
+          generateQuestion(answerHtml)
+          )
         checkCorrectAndGiveFeedback(currentCorrect);
       }
     }   
-    listenForAttachRemoveStart();
+    handleSubmitAndEnd();
   }
 
 
@@ -159,29 +166,37 @@ function hideFeedback(){
       event.preventDefault();
       let answerChosen=$('input[type=radio]:checked').val();
       if (answerChosen == currentCorrect){
-        prependCorrectAndChangeScore(currentCorrect);
+        $('.js-q-container').prepend(
+          correctFeedback(currentCorrect)
+          )
+          changeScore();
       }else{ 
-        prependIncorrect(currentCorrect);
+        $('.js-q-container').prepend(
+        incorrectFeedback(currentCorrect));
       }
     })};
 
 
-    function prependCorrectAndChangeScore(currentCorrect){
-     $('.js-q-container').prepend(
-      `<fieldset><h4>You are correct! The right answer was ${currentCorrect}.</h4></fieldset>`); 
-     numCorrect++;
+    function correctFeedback(currentCorrect){
+     let correctFeedback = 
+     $(`<fieldset><h4>You are correct! The right answer was ${currentCorrect}.</h4></fieldset>`); 
+     return correctFeedback
    }
 
-   function prependIncorrect(currentCorrect){
-    $('.js-q-container').prepend(
-     `<fieldset><h4>Sorry, you are incorrect. The correct answer was ${currentCorrect}.</fieldset></h4?`); 
+   function incorrectFeedback(currentCorrect){
+      let incorrectFeedback = 
+      $(`<fieldset><h4>Sorry, you are incorrect. The correct answer was ${currentCorrect}.</fieldset></h4?`); 
+      return incorrectFeedback
+  }
+
+
+  function changeScore(){
+    numCorrect++;
   }
 
 
   function generateQuestion(answerHtml){
-
-    $('.js-q-container').append(
-     `<main class="startQ">
+   let fullQuestion = $(`<main class="startQ">
      <h4>Question ${questionNum} of ${STORE.questions.length}</h4>
      <div class="numCorrect">
      <h5>${numCorrect} correct out of ${STORE.questions.length}</h5>
@@ -192,21 +207,29 @@ function hideFeedback(){
      `<input type="submit" id="submit" name="submit" value="submit" required="required">
      </form>
      </main>`)
-  }
+   return fullQuestion;
+ }
 
 
 
-  function restart(){
-    questionNum=0;
-    clickCount=-1;
-    numCorrect=0;
-  }
+ function resetVariables(){
+  questionNum=0;
+  clickCount=-1;
+  numCorrect=0;
+}
 
 
+function setEndScreen(){
+  event.preventDefault();
+  $('.js-q-container').append(
+    endScreen()
+   );
+  resetVariables();
+  handleSubmitAndEnd();
+}
 
-  function checkAndSetEndScreen(){
-   $('.js-q-container').append(
-    `<main class="startQ">
+function endScreen(){
+  let end = $(`<main class="startQ">
     <div class="numCorrect">
     <h2>Nice job! You got ${numCorrect} correct out of ${STORE.questions.length}!</h2>
     </div>
@@ -214,17 +237,13 @@ function hideFeedback(){
     <form>
     <input type="submit" id="submit" name="submit" value="Try again">
     </form>
-    </main>`
-    );
-   restart();
- }
+    </main>`);
+  return end;
+}
 
 
 
- $(function start() {
-  listenForAttachRemoveStart();
-});
-
-
-
+  $(function start() {
+    handleSubmitAndEnd();
+  });
 
