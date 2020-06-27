@@ -120,8 +120,9 @@ function listenForAttachRemoveStart(){
     questionNum++;
     renderAQuestion();
     hideFeedback();
-    checkAndSetEndScreen();
-  });
+    if (questionNum>STORE.questions.length){
+      checkAndSetEndScreen();
+    }});
 }
 
 
@@ -158,64 +159,71 @@ function hideFeedback(){
       event.preventDefault();
       let answerChosen=$('input[type=radio]:checked').val();
       if (answerChosen == currentCorrect){
-       $('.js-q-container').prepend(
-        `<fieldset><h4>You are correct! The right answer was ${currentCorrect}.</h4></fieldset>`); 
-       numCorrect++;
-     }else{ 
-      $('.js-q-container').prepend(
-       `<fieldset><h4>Sorry, you are incorrect. The correct answer was ${currentCorrect}.</fieldset></h4?`); 
+        prependCorrectAndChangeScore(currentCorrect);
+      }else{ 
+        prependIncorrect(currentCorrect);
       }
-    })
-  };
+    })};
 
+
+    function prependCorrectAndChangeScore(currentCorrect){
+     $('.js-q-container').prepend(
+      `<fieldset><h4>You are correct! The right answer was ${currentCorrect}.</h4></fieldset>`); 
+     numCorrect++;
+   }
+
+   function prependIncorrect(currentCorrect){
+    $('.js-q-container').prepend(
+     `<fieldset><h4>Sorry, you are incorrect. The correct answer was ${currentCorrect}.</fieldset></h4?`); 
+  }
 
 
   function generateQuestion(answerHtml){
 
     $('.js-q-container').append(
-       `<main class="startQ">
-        <h4>Question ${questionNum} of ${STORE.questions.length}</h4>
-        <div class="numCorrect">
-        <h5>${numCorrect} correct out of ${STORE.questions.length}</h5>
-        </div>
-        <h3>${STORE.questions[clickCount].question}</h3>
-        <form>`+
-        answerHtml+
-        `<input type="submit" id="submit" name="submit" value="submit" required="required">
-        </form>
-        </main>`)
+     `<main class="startQ">
+     <h4>Question ${questionNum} of ${STORE.questions.length}</h4>
+     <div class="numCorrect">
+     <h5>${numCorrect} correct out of ${STORE.questions.length}</h5>
+     </div>
+     <h3>${STORE.questions[clickCount].question}</h3>
+     <form>`+
+     answerHtml+
+     `<input type="submit" id="submit" name="submit" value="submit" required="required">
+     </form>
+     </main>`)
   }
 
 
 
   function restart(){
-    let questionNum=0;
-    let clickCount=-1;
+    questionNum=0;
+    clickCount=-1;
+    numCorrect=0;
   }
 
 
 
   function checkAndSetEndScreen(){
-    if (questionNum>STORE.questions.length){
-      $('.js-q-container').append(
-        `<main class="startQ">
-        <div class="numCorrect">
-        <h2>Nice job! You got ${numCorrect} correct out of ${STORE.questions.length}!</h2>
-        </div>
-        <h3>Do you want to try again?</h3>
-        <form>
-        <input type="submit" id="submit" name="submit" value="Try again">
-        </form>
-        </main>`)
-      restart();
-    }
-  }
+   $('.js-q-container').append(
+    `<main class="startQ">
+    <div class="numCorrect">
+    <h2>Nice job! You got ${numCorrect} correct out of ${STORE.questions.length}!</h2>
+    </div>
+    <h3>Do you want to try again?</h3>
+    <form>
+    <input type="submit" id="submit" name="submit" value="Try again">
+    </form>
+    </main>`
+    );
+   restart();
+ }
 
 
 
-  $(function start() {
-    listenForAttachRemoveStart();
-  });
+ $(function start() {
+  listenForAttachRemoveStart();
+});
 
 
 
